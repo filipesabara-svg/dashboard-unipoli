@@ -1,279 +1,36 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Meta Ads — UNIPOLI</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#fff;padding:12px;font-size:14px}
-h1{font-size:18px;font-weight:700;margin-bottom:4px}
-.subtitle{color:#888;font-size:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
-.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
-.kpi{background:#1a1d27;border-radius:10px;padding:12px;border:1px solid #2a2d3a}
-.kpi-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.kpi-value{font-size:20px;font-weight:700}
-.kpi-sub{font-size:10px;margin-top:3px}
-.green{color:#00d4aa}.red{color:#ff4d6d}.yellow{color:#ffd166}.blue{color:#4cc9f0}.purple{color:#a855f7}.orange{color:#fb923c}
-.charts-row{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}
-.charts-row3{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}
-.chart-box{background:#1a1d27;border-radius:10px;padding:14px;border:1px solid #2a2d3a}
-.chart-title{font-size:11px;font-weight:600;color:#ccc;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
-.table-wrap{background:#1a1d27;border-radius:10px;padding:12px;border:1px solid #2a2d3a;margin-bottom:12px;overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:11px;min-width:500px}
-th{color:#888;font-weight:600;padding:7px 8px;text-align:left;border-bottom:1px solid #2a2d3a;font-size:10px;text-transform:uppercase;white-space:nowrap}
-td{padding:7px 8px;border-bottom:1px solid #1e2130;white-space:nowrap}
-tr:last-child td{border-bottom:none}
-.badge{display:inline-block;padding:2px 6px;border-radius:20px;font-size:10px;font-weight:600}
-.badge-green{background:#00d4aa22;color:#00d4aa}
-.badge-red{background:#ff4d6d22;color:#ff4d6d}
-.badge-yellow{background:#ffd16622;color:#ffd166}
-canvas{max-height:200px}
-#loading{position:fixed;inset:0;background:#0f1117;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;gap:16px}
-#loading p{color:#888;font-size:14px}
-.spinner{width:40px;height:40px;border:3px solid #2a2d3a;border-top-color:#00d4aa;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-#error-msg{display:none;background:#ff4d6d22;border:1px solid #ff4d6d44;border-radius:10px;padding:16px;margin-bottom:16px;color:#ff4d6d;font-size:13px}
-@media(min-width:600px){body{padding:20px}h1{font-size:22px}.kpis{grid-template-columns:repeat(3,1fr);gap:12px}.kpi-value{font-size:24px}}
-@media(min-width:900px){.kpis{grid-template-columns:repeat(5,1fr)}.charts-row{grid-template-columns:1fr 1fr}.charts-row3{grid-template-columns:1fr 1fr 1fr}.chart-box{padding:20px}table{min-width:unset}}
-</style>
-</head>
-<body>
-
-<div id="loading">
-  <div class="spinner"></div>
-  <p>Carregando dados da Meta Ads API...</p>
-</div>
-
-<h1>📊 Meta Ads — UNIPOLI</h1>
-<p class="subtitle">
-  <span id="subtitle-date">Últimos 30 dias · Carregando...</span>
-  <span style="color:#00d4aa;font-size:11px">🔄 Atualizado ao carregar</span>
-</p>
-
-<div id="error-msg"></div>
-
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Meta Ads — UNIPOLI</title><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:#0f1117;color:#fff;padding:12px;font-size:14px}h1{font-size:18px;font-weight:700;margin-bottom:4px}.subtitle{color:#888;font-size:12px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}.kpi{background:#1a1d27;border-radius:10px;padding:12px;border:1px solid #2a2d3a}.kpi-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}.kpi-value{font-size:20px;font-weight:700}.kpi-sub{font-size:10px;margin-top:3px}.green{color:#00d4aa}.red{color:#ff4d6d}.yellow{color:#ffd166}.blue{color:#4cc9f0}.purple{color:#a855f7}.orange{color:#fb923c}.charts-row{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}.charts-row3{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:10px}.chart-box{background:#1a1d27;border-radius:10px;padding:14px;border:1px solid #2a2d3a}.chart-title{font-size:11px;font-weight:600;color:#ccc;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}.table-wrap{background:#1a1d27;border-radius:10px;padding:12px;border:1px solid #2a2d3a;margin-bottom:12px;overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:11px;min-width:500px}th{color:#888;font-weight:600;padding:7px 8px;text-align:left;border-bottom:1px solid #2a2d3a;font-size:10px;text-transform:uppercase;white-space:nowrap}td{padding:7px 8px;border-bottom:1px solid #1e2130;white-space:nowrap}tr:last-child td{border-bottom:none}.badge{display:inline-block;padding:2px 6px;border-radius:20px;font-size:10px;font-weight:600}.badge-green{background:#00d4aa22;color:#00d4aa}.badge-red{background:#ff4d6d22;color:#ff4d6d}.badge-yellow{background:#ffd16622;color:#ffd166}canvas{max-height:200px}@media(min-width:600px){body{padding:20px}h1{font-size:22px}.kpis{grid-template-columns:repeat(3,1fr);gap:12px}.kpi-value{font-size:24px}}@media(min-width:900px){.kpis{grid-template-columns:repeat(5,1fr)}.charts-row{grid-template-columns:1fr 1fr}.charts-row3{grid-template-columns:1fr 1fr 1fr}.chart-box{padding:20px}table{min-width:unset}}</style></head><body>
+<h1>📊 Meta Ads — UNIPOLI</h1><p class="subtitle" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span>Últimos 30 dias · Atualizado em 07/03/2026 às 12:07</span><span style="color:#00d4aa;font-size:11px">🔄 Próxima atualização: <span id="refresh-counter">15min 00s</span></span></p>
 <div class="kpis">
-  <div class="kpi"><div class="kpi-label">💰 Gasto Total</div><div class="kpi-value yellow" id="k-spend">—</div><div class="kpi-sub" style="color:#888">30 dias</div></div>
-  <div class="kpi"><div class="kpi-label">💵 Receita</div><div class="kpi-value green" id="k-revenue">—</div><div class="kpi-sub" id="k-revenue-sub" style="color:#888">—</div></div>
-  <div class="kpi"><div class="kpi-label">📈 ROAS</div><div class="kpi-value" id="k-roas">—</div><div class="kpi-sub" id="k-roas-sub">—</div></div>
-  <div class="kpi"><div class="kpi-label">📉 ROI</div><div class="kpi-value" id="k-roi">—</div><div class="kpi-sub" id="k-roi-sub" style="color:#888">—</div></div>
-  <div class="kpi"><div class="kpi-label">🛒 Compras</div><div class="kpi-value blue" id="k-purchases">—</div><div class="kpi-sub" style="color:#888" id="k-cpp">—</div></div>
-  <div class="kpi"><div class="kpi-label">🎯 Leads</div><div class="kpi-value purple" id="k-leads">—</div><div class="kpi-sub" style="color:#888" id="k-cpl">—</div></div>
-  <div class="kpi"><div class="kpi-label">👁️ Impressões</div><div class="kpi-value" style="color:#ccc" id="k-impressions">—</div><div class="kpi-sub" style="color:#888" id="k-cpm">—</div></div>
-  <div class="kpi"><div class="kpi-label">🖱️ Cliques</div><div class="kpi-value" style="color:#ccc" id="k-clicks">—</div><div class="kpi-sub green" id="k-ctr">—</div></div>
-  <div class="kpi"><div class="kpi-label">💲 CPC</div><div class="kpi-value green" id="k-cpc">—</div><div class="kpi-sub" style="color:#888">Custo por clique</div></div>
-  <div class="kpi"><div class="kpi-label">📊 Campanhas</div><div class="kpi-value orange" id="k-campaigns">—</div><div class="kpi-sub" style="color:#888">ativas</div></div>
+<div class="kpi"><div class="kpi-label">💰 Gasto Total</div><div class="kpi-value yellow">R$9.917</div><div class="kpi-sub" style="color:#888">30 dias</div></div>
+<div class="kpi"><div class="kpi-label">💵 Receita</div><div class="kpi-value green">R$8.609</div><div class="kpi-sub red">▼ vs gasto</div></div>
+<div class="kpi"><div class="kpi-label">📈 ROAS</div><div class="kpi-value red">0.87</div><div class="kpi-sub red">⚠️ Abaixo do ideal</div></div>
+<div class="kpi"><div class="kpi-label">📉 ROI</div><div class="kpi-value red">-13.2%</div><div class="kpi-sub" style="color:#888">Prejuízo estimado</div></div>
+<div class="kpi"><div class="kpi-label">🛒 Compras</div><div class="kpi-value blue">158</div><div class="kpi-sub" style="color:#888">CPP: R$62.76</div></div>
+<div class="kpi"><div class="kpi-label">🎯 Leads</div><div class="kpi-value purple">345</div><div class="kpi-sub" style="color:#888">CPL: R$28.74</div></div>
+<div class="kpi"><div class="kpi-label">👁️ Impressões</div><div class="kpi-value" style="color:#ccc">344K</div><div class="kpi-sub" style="color:#888">CPM: R$28.79</div></div>
+<div class="kpi"><div class="kpi-label">🖱️ Cliques</div><div class="kpi-value" style="color:#ccc">10.497</div><div class="kpi-sub green">CTR: 3.05%</div></div>
+<div class="kpi"><div class="kpi-label">💲 CPC</div><div class="kpi-value green">R$0.94</div><div class="kpi-sub" style="color:#888">Custo por clique</div></div>
+<div class="kpi"><div class="kpi-label">📊 Campanhas</div><div class="kpi-value orange">13</div><div class="kpi-sub" style="color:#888">ativas</div></div>
 </div>
-
-<div class="charts-row">
-  <div class="chart-box"><div class="chart-title">📈 Gasto x Receita por Dia</div><canvas id="c1"></canvas></div>
-  <div class="chart-box"><div class="chart-title">🎯 Leads x Compras por Dia</div><canvas id="c2"></canvas></div>
-</div>
-<div class="charts-row">
-  <div class="chart-box"><div class="chart-title">📊 Gasto por Campanha</div><canvas id="c3"></canvas></div>
-  <div class="chart-box"><div class="chart-title">💵 ROAS por Campanha</div><canvas id="c4"></canvas></div>
-</div>
-<div class="charts-row3">
-  <div class="chart-box"><div class="chart-title">🍕 Distribuição de Gasto</div><canvas id="c5"></canvas></div>
-  <div class="chart-box"><div class="chart-title">📉 CTR por Campanha (%)</div><canvas id="c6"></canvas></div>
-  <div class="chart-box"><div class="chart-title">💲 CPC por Campanha (R$)</div><canvas id="c7"></canvas></div>
-</div>
-
-<div class="table-wrap">
-  <div class="chart-title" style="margin-bottom:12px">🏆 Ranking de Campanhas</div>
-  <table><thead><tr><th>#</th><th>Campanha</th><th>Gasto</th><th>Receita</th><th>ROAS</th><th>Compras</th><th>Leads</th><th>CTR</th><th>CPC</th><th>Status</th></tr></thead>
-  <tbody id="tb"></tbody></table>
-</div>
-
+<div class="charts-row"><div class="chart-box"><div class="chart-title">📈 Gasto x Receita por Dia</div><canvas id="c1"></canvas></div><div class="chart-box"><div class="chart-title">🎯 Leads x Compras por Dia</div><canvas id="c2"></canvas></div></div>
+<div class="charts-row"><div class="chart-box"><div class="chart-title">📊 Gasto por Campanha</div><canvas id="c3"></canvas></div><div class="chart-box"><div class="chart-title">💵 ROAS por Campanha</div><canvas id="c4"></canvas></div></div>
+<div class="charts-row3"><div class="chart-box"><div class="chart-title">🍕 Distribuição de Gasto</div><canvas id="c5"></canvas></div><div class="chart-box"><div class="chart-title">📉 CTR por Campanha (%)</div><canvas id="c6"></canvas></div><div class="chart-box"><div class="chart-title">💲 CPC por Campanha (R$)</div><canvas id="c7"></canvas></div></div>
+<div class="table-wrap"><div class="chart-title" style="margin-bottom:12px">🏆 Ranking de Campanhas</div><table><thead><tr><th>#</th><th>Campanha</th><th>Gasto</th><th>Receita</th><th>ROAS</th><th>Compras</th><th>Leads</th><th>CTR</th><th>CPC</th><th>Status</th></tr></thead><tbody id="tb"></tbody></table></div>
 <script>
-const fmt = n => 'R$' + n.toFixed(2).replace('.',',');
-const fmtK = n => n >= 1000 ? (n/1000).toFixed(1)+'K' : n.toString();
-
-const colors = ['#4cc9f0','#a855f7','#00d4aa','#ffd166','#fb923c','#ff4d6d','#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4'];
-const cfgBase = {
-  responsive: true,
-  plugins: { legend: { labels: { color: '#ccc', font: { size: 11 } } } },
-  scales: {
-    x: { ticks: { color: '#888', font: { size: 10 } }, grid: { color: '#2a2d3a' } },
-    y: { ticks: { color: '#888', font: { size: 10 } }, grid: { color: '#2a2d3a' } }
-  }
-};
-
-let charts = {};
-
-function destroyCharts() {
-  Object.values(charts).forEach(c => c.destroy());
-  charts = {};
-}
-
-function renderDashboard({ campaigns, daily }) {
-  // Aggregate KPIs
-  const totalSpend = campaigns.reduce((s, c) => s + c.spend, 0);
-  const totalRevenue = campaigns.reduce((s, c) => s + c.revenue, 0);
-  const totalPurchases = campaigns.reduce((s, c) => s + c.purchases, 0);
-  const totalLeads = campaigns.reduce((s, c) => s + c.leads, 0);
-  const totalImpressions = campaigns.reduce((s, c) => s + c.impressions, 0);
-  const totalClicks = campaigns.reduce((s, c) => s + c.clicks, 0);
-  const roas = totalSpend > 0 ? totalRevenue / totalSpend : 0;
-  const roi = totalSpend > 0 ? ((totalRevenue - totalSpend) / totalSpend) * 100 : 0;
-  const ctr = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
-  const cpc = totalClicks > 0 ? totalSpend / totalClicks : 0;
-  const cpm = totalImpressions > 0 ? (totalSpend / totalImpressions) * 1000 : 0;
-  const cpp = totalPurchases > 0 ? totalSpend / totalPurchases : 0;
-  const cpl = totalLeads > 0 ? totalSpend / totalLeads : 0;
-
-  // Update KPIs
-  document.getElementById('k-spend').textContent = fmt(totalSpend);
-  document.getElementById('k-revenue').textContent = fmt(totalRevenue);
-  document.getElementById('k-revenue-sub').textContent = totalRevenue >= totalSpend ? '✅ Acima do gasto' : '⚠️ Abaixo do gasto';
-  document.getElementById('k-revenue-sub').className = 'kpi-sub ' + (totalRevenue >= totalSpend ? 'green' : 'red');
-
-  const roasEl = document.getElementById('k-roas');
-  roasEl.textContent = roas.toFixed(2);
-  roasEl.className = 'kpi-value ' + (roas >= 1 ? 'green' : 'red');
-  document.getElementById('k-roas-sub').textContent = roas >= 1 ? '✅ Positivo' : '⚠️ Abaixo do ideal';
-  document.getElementById('k-roas-sub').className = 'kpi-sub ' + (roas >= 1 ? 'green' : 'red');
-
-  const roiEl = document.getElementById('k-roi');
-  roiEl.textContent = roi.toFixed(1) + '%';
-  roiEl.className = 'kpi-value ' + (roi >= 0 ? 'green' : 'red');
-  document.getElementById('k-roi-sub').textContent = roi >= 0 ? 'Lucro estimado' : 'Prejuízo estimado';
-
-  document.getElementById('k-purchases').textContent = totalPurchases;
-  document.getElementById('k-cpp').textContent = 'CPP: ' + fmt(cpp);
-  document.getElementById('k-leads').textContent = totalLeads;
-  document.getElementById('k-cpl').textContent = 'CPL: ' + fmt(cpl);
-  document.getElementById('k-impressions').textContent = fmtK(totalImpressions);
-  document.getElementById('k-cpm').textContent = 'CPM: ' + fmt(cpm);
-  document.getElementById('k-clicks').textContent = fmtK(totalClicks);
-  document.getElementById('k-ctr').textContent = 'CTR: ' + ctr.toFixed(2) + '%';
-  document.getElementById('k-cpc').textContent = fmt(cpc);
-  document.getElementById('k-campaigns').textContent = campaigns.length;
-
-  // Update subtitle
-  const now = new Date();
-  const pad = n => String(n).padStart(2,'0');
-  document.getElementById('subtitle-date').textContent =
-    `Últimos 30 dias · Atualizado em ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()} às ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-
-  destroyCharts();
-
-  // Charts
-  charts.c1 = new Chart(c1, {
-    type: 'line',
-    data: {
-      labels: daily.map(d => d.date),
-      datasets: [
-        { label: 'Gasto', data: daily.map(d => d.spend), borderColor: '#ffd166', backgroundColor: '#ffd16622', tension: 0.4, fill: true, pointRadius: 3 },
-        { label: 'Receita', data: daily.map(d => d.revenue), borderColor: '#00d4aa', backgroundColor: '#00d4aa22', tension: 0.4, fill: true, pointRadius: 3 }
-      ]
-    },
-    options: cfgBase
-  });
-
-  charts.c2 = new Chart(c2, {
-    type: 'line',
-    data: {
-      labels: daily.map(d => d.date),
-      datasets: [
-        { label: 'Leads', data: daily.map(d => d.leads), borderColor: '#a855f7', backgroundColor: '#a855f722', tension: 0.4, fill: true, pointRadius: 3 },
-        { label: 'Compras', data: daily.map(d => d.purchases), borderColor: '#4cc9f0', backgroundColor: '#4cc9f022', tension: 0.4, fill: true, pointRadius: 3 }
-      ]
-    },
-    options: cfgBase
-  });
-
-  charts.c3 = new Chart(c3, {
-    type: 'bar',
-    data: {
-      labels: campaigns.map(c => c.name),
-      datasets: [{ label: 'Gasto', data: campaigns.map(c => c.spend), backgroundColor: colors, borderRadius: 6 }]
-    },
-    options: { ...cfgBase, indexAxis: 'y', plugins: { legend: { display: false } } }
-  });
-
-  charts.c4 = new Chart(c4, {
-    type: 'bar',
-    data: {
-      labels: campaigns.map(c => c.name),
-      datasets: [{ label: 'ROAS', data: campaigns.map(c => c.roas), backgroundColor: campaigns.map(c => c.roas >= 1 ? '#00d4aa' : '#ff4d6d'), borderRadius: 6 }]
-    },
-    options: { ...cfgBase, indexAxis: 'y', plugins: { legend: { display: false } } }
-  });
-
-  charts.c5 = new Chart(c5, {
-    type: 'doughnut',
-    data: {
-      labels: campaigns.map(c => c.name),
-      datasets: [{ data: campaigns.map(c => c.spend), backgroundColor: colors, borderWidth: 2, borderColor: '#1a1d27' }]
-    },
-    options: { responsive: true, plugins: { legend: { position: 'right', labels: { color: '#ccc', font: { size: 9 }, boxWidth: 12 } } } }
-  });
-
-  charts.c6 = new Chart(c6, {
-    type: 'bar',
-    data: {
-      labels: campaigns.map(c => c.name),
-      datasets: [{ label: 'CTR', data: campaigns.map(c => c.ctr), backgroundColor: '#4cc9f0', borderRadius: 6 }]
-    },
-    options: { ...cfgBase, indexAxis: 'y', plugins: { legend: { display: false } } }
-  });
-
-  charts.c7 = new Chart(c7, {
-    type: 'bar',
-    data: {
-      labels: campaigns.map(c => c.name),
-      datasets: [{ label: 'CPC', data: campaigns.map(c => c.cpc), backgroundColor: '#fb923c', borderRadius: 6 }]
-    },
-    options: { ...cfgBase, indexAxis: 'y', plugins: { legend: { display: false } } }
-  });
-
-  // Table
-  const tb = document.getElementById('tb');
-  tb.innerHTML = '';
-  [...campaigns].sort((a, b) => b.spend - a.spend).forEach((c, i) => {
-    const p = c.roas >= 1.5
-      ? '<span class="badge badge-green">Excelente</span>'
-      : c.roas >= 1
-        ? '<span class="badge badge-yellow">OK</span>'
-        : c.leads > 10
-          ? '<span class="badge badge-yellow">Leads</span>'
-          : '<span class="badge badge-red">Atenção</span>';
-    tb.innerHTML += `<tr>
-      <td style="color:#888">${i+1}</td>
-      <td style="font-weight:600">${c.name}</td>
-      <td class="yellow">${fmt(c.spend)}</td>
-      <td class="green">${fmt(c.revenue)}</td>
-      <td class="${c.roas >= 1 ? 'green' : 'red'}">${c.roas}</td>
-      <td class="blue">${c.purchases}</td>
-      <td class="purple">${c.leads}</td>
-      <td>${c.ctr}%</td>
-      <td>${fmt(c.cpc)}</td>
-      <td>${p}</td>
-    </tr>`;
-  });
-}
-
-async function loadData() {
-  document.getElementById('loading').style.display = 'flex';
-  document.getElementById('error-msg').style.display = 'none';
-  try {
-    const res = await fetch('/api/meta');
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    renderDashboard(data);
-  } catch (err) {
-    const errEl = document.getElementById('error-msg');
-    errEl.style.display = 'block';
-    errEl.textContent = '⚠️ Erro ao carregar dados da Meta API: ' + err.message;
-  } finally {
-    document.getElementById('loading').style.display = 'none';
-  }
-}
-
-loadData();
-</script>
-</body>
-</html>
+const daily=[{"date":"11/02","spend":10.12,"revenue":0,"purchases":0,"leads":0,"clicks":14,"ctr":4.86},{"date":"12/02","spend":68.14,"revenue":0,"purchases":0,"leads":4,"clicks":126,"ctr":4.16},{"date":"13/02","spend":91.59,"revenue":0,"purchases":0,"leads":17,"clicks":192,"ctr":4.27},{"date":"14/02","spend":79.37,"revenue":0,"purchases":0,"leads":15,"clicks":166,"ctr":4.82},{"date":"15/02","spend":152.36,"revenue":400.5,"purchases":1,"leads":37,"clicks":416,"ctr":4.2},{"date":"16/02","spend":135.24,"revenue":0,"purchases":0,"leads":27,"clicks":354,"ctr":3.53},{"date":"17/02","spend":211.78,"revenue":0,"purchases":0,"leads":28,"clicks":446,"ctr":3.43},{"date":"18/02","spend":331.38,"revenue":150.9,"purchases":3,"leads":12,"clicks":552,"ctr":4.07},{"date":"19/02","spend":475.54,"revenue":509.6,"purchases":10,"leads":12,"clicks":620,"ctr":3.79},{"date":"20/02","spend":434.09,"revenue":509.6,"purchases":10,"leads":17,"clicks":506,"ctr":3.57},{"date":"21/02","spend":482.41,"revenue":358.7,"purchases":7,"leads":11,"clicks":499,"ctr":3.22},{"date":"22/02","spend":556.27,"revenue":462.6,"purchases":9,"leads":18,"clicks":616,"ctr":2.94},{"date":"23/02","spend":676.05,"revenue":858.4,"purchases":17,"leads":17,"clicks":583,"ctr":2.87},{"date":"24/02","spend":834.18,"revenue":784.2,"purchases":15,"leads":23,"clicks":826,"ctr":3.31},{"date":"25/02","spend":751.38,"revenue":710,"purchases":13,"leads":18,"clicks":729,"ctr":2.91},{"date":"26/02","spend":767.61,"revenue":858.4,"purchases":17,"leads":11,"clicks":691,"ctr":2.6},{"date":"27/02","spend":927.75,"revenue":851,"purchases":16,"leads":23,"clicks":868,"ctr":2.84},{"date":"28/02","spend":678.49,"revenue":425.5,"purchases":8,"leads":10,"clicks":606,"ctr":2.69},{"date":"01/03","spend":658.52,"revenue":338.9,"purchases":7,"leads":14,"clicks":554,"ctr":2.7},{"date":"02/03","spend":538.79,"revenue":556.6,"purchases":11,"leads":5,"clicks":393,"ctr":2.22},{"date":"03/03","spend":262.87,"revenue":301.8,"purchases":6,"leads":3,"clicks":182,"ctr":2.18},{"date":"04/03","spend":264.72,"revenue":217.7,"purchases":4,"leads":3,"clicks":178,"ctr":2.3},{"date":"05/03","spend":259.17,"revenue":56.9,"purchases":1,"leads":7,"clicks":194,"ctr":2.43},{"date":"06/03","spend":268.71,"revenue":257.8,"purchases":3,"leads":13,"clicks":186,"ctr":2.49}];
+const campaigns=[{"name":"— ADV+ SEGMENTADO","spend":2745.77,"revenue":0,"roas":0,"purchases":0,"leads":275,"ctr":2.71,"cpc":0.73},{"name":"— MELHORES ADS","spend":2699.98,"revenue":4316.8,"roas":1.6,"purchases":83,"leads":1,"ctr":2.99,"cpc":1.12},{"name":"— SEM AD 01","spend":1522.79,"revenue":1917.7,"roas":1.26,"purchases":36,"leads":2,"ctr":3.14,"cpc":1.15},{"name":"Camp","spend":1100.3,"revenue":1274,"roas":1.16,"purchases":25,"leads":0,"ctr":3.42,"cpc":1.05},{"name":"— @bolsonarossp","spend":553.85,"revenue":368.6,"roas":0.67,"purchases":7,"leads":0,"ctr":3.66,"cpc":1.61},{"name":"— ADV+","spend":489.14,"revenue":400.5,"roas":0.82,"purchases":1,"leads":62,"ctr":3.87,"cpc":0.47},{"name":"— @augustonunesofclb","spend":215.64,"revenue":331.5,"roas":1.54,"purchases":6,"leads":0,"ctr":4.89,"cpc":1.4},{"name":"— PUBLICOS PAG DIREITA","spend":202.48,"revenue":0,"roas":0,"purchases":0,"leads":4,"ctr":2.23,"cpc":1.18},{"name":"— @coppollaopressor","spend":142.43,"revenue":0,"roas":0,"purchases":0,"leads":1,"ctr":4.1,"cpc":1.53},{"name":"— @direitabolsonaristabr","spend":112.35,"revenue":0,"roas":0,"purchases":0,"leads":0,"ctr":5.09,"cpc":1.6},{"name":"— @brasilacimabr","spend":108.8,"revenue":0,"roas":0,"purchases":0,"leads":0,"ctr":4.96,"cpc":1.62},{"name":"- -","spend":12.88,"revenue":0,"roas":0,"purchases":0,"leads":0,"ctr":4.88,"cpc":1.07},{"name":"— ADV+ SEGMENTADO","spend":10.12,"revenue":0,"roas":0,"purchases":0,"leads":0,"ctr":4.86,"cpc":0.72}];
+const colors=['#4cc9f0','#a855f7','#00d4aa','#ffd166','#fb923c','#ff4d6d','#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#06b6d4'];
+const cfg={responsive:true,plugins:{legend:{labels:{color:'#ccc',font:{size:11}}}},scales:{x:{ticks:{color:'#888',font:{size:10}},grid:{color:'#2a2d3a'}},y:{ticks:{color:'#888',font:{size:10}},grid:{color:'#2a2d3a'}}}};
+new Chart(c1,{type:'line',data:{labels:daily.map(d=>d.date),datasets:[{label:'Gasto',data:daily.map(d=>d.spend),borderColor:'#ffd166',backgroundColor:'#ffd16622',tension:0.4,fill:true,pointRadius:3},{label:'Receita',data:daily.map(d=>d.revenue),borderColor:'#00d4aa',backgroundColor:'#00d4aa22',tension:0.4,fill:true,pointRadius:3}]},options:cfg});
+new Chart(c2,{type:'line',data:{labels:daily.map(d=>d.date),datasets:[{label:'Leads',data:daily.map(d=>d.leads),borderColor:'#a855f7',backgroundColor:'#a855f722',tension:0.4,fill:true,pointRadius:3},{label:'Compras',data:daily.map(d=>d.purchases),borderColor:'#4cc9f0',backgroundColor:'#4cc9f022',tension:0.4,fill:true,pointRadius:3}]},options:cfg});
+new Chart(c3,{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'Gasto',data:campaigns.map(c=>c.spend),backgroundColor:colors,borderRadius:6}]},options:{...cfg,indexAxis:'y',plugins:{legend:{display:false}}}});
+new Chart(c4,{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'ROAS',data:campaigns.map(c=>c.roas),backgroundColor:campaigns.map(c=>c.roas>=1?'#00d4aa':'#ff4d6d'),borderRadius:6}]},options:{...cfg,indexAxis:'y',plugins:{legend:{display:false}}}});
+new Chart(c5,{type:'doughnut',data:{labels:campaigns.map(c=>c.name),datasets:[{data:campaigns.map(c=>c.spend),backgroundColor:colors,borderWidth:2,borderColor:'#1a1d27'}]},options:{responsive:true,plugins:{legend:{position:'right',labels:{color:'#ccc',font:{size:9},boxWidth:12}}}}});
+new Chart(c6,{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'CTR',data:campaigns.map(c=>c.ctr),backgroundColor:'#4cc9f0',borderRadius:6}]},options:{...cfg,indexAxis:'y',plugins:{legend:{display:false}}}});
+new Chart(c7,{type:'bar',data:{labels:campaigns.map(c=>c.name),datasets:[{label:'CPC',data:campaigns.map(c=>c.cpc),backgroundColor:'#fb923c',borderRadius:6}]},options:{...cfg,indexAxis:'y',plugins:{legend:{display:false}}}});
+const tb=document.getElementById('tb');
+[...campaigns].sort((a,b)=>b.spend-a.spend).forEach((c,i)=>{
+  const p=c.roas>=1.5?'<span class="badge badge-green">Excelente</span>':c.roas>=1?'<span class="badge badge-yellow">OK</span>':c.leads>10?'<span class="badge badge-yellow">Leads</span>':'<span class="badge badge-red">Atenção</span>';
+  tb.innerHTML+=`<tr><td style="color:#888">${i+1}</td><td style="font-weight:600">${c.name}</td><td class="yellow">R$${c.spend.toFixed(2)}</td><td class="green">R$${c.revenue.toFixed(2)}</td><td class="${c.roas>=1?'green':'red'}">${c.roas}</td><td class="blue">${c.purchases}</td><td class="purple">${c.leads}</td><td>${c.ctr}%</td><td>R$${c.cpc}</td><td>${p}</td></tr>`;
+});
+</script></body></html>
